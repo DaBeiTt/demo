@@ -22,7 +22,6 @@ public class CustomToolBox {
 
     /**
      * 隨機 UUID
-     * @return
      */
     public static String generatePlayerId() {
         String randomId = UUID.randomUUID().toString().replace("-","");
@@ -41,8 +40,8 @@ public class CustomToolBox {
 
     /**
      * 時間戳轉換為 Date
-     * @param stamp
-     * @param zone
+     * @param stamp 時間戳
+     * @param zone 時區
      */
     public static String timestampToDate(Long stamp, String zone) {
         ZonedDateTime dateTime = Instant.ofEpochMilli(stamp).atZone(ZoneId.of(zone));
@@ -54,9 +53,8 @@ public class CustomToolBox {
 
     /**
      * 計算 HMAC-SHA256 簽名
-     * @param message
-     * @param secretKey
-     * @throws Exception
+     * @param message 預加密訊息
+     * @param secretKey 密鑰
      */
     public static String calculateHMAC(String message, String secretKey) throws Exception {
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
@@ -75,12 +73,12 @@ public class CustomToolBox {
     }
 
     /**
-     * 生成範圍內隨機 Double(去小數)
-     * @param min
-     * @param max
-     * @return
+     * 生成範圍內隨機 Double
+     * @param min 最小值
+     * @param max 最大值
+     * @return 去小數點之 Double
      */
-    public static Double generateRandowProfitLossInRange(double min, double max) {
+    public static Double generateRandomProfitLossInRange(double min, double max) {
 
         Random random = new Random();
 
@@ -88,9 +86,6 @@ public class CustomToolBox {
             throw new IllegalArgumentException("範圍錯誤");
         }
 
-        if (min == max) {
-            return Math.floor(200 + (800 * random.nextDouble()));
-        }
         return Math.floor(200 + (800 * random.nextDouble()));
     }
 }
