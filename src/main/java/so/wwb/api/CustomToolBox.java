@@ -5,6 +5,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -16,8 +18,22 @@ import java.util.*;
  */
 public class CustomToolBox {
 
-    public Integer add(int a, int b) {
-        return a + b;
+    public static void main(String[] args) throws NoSuchAlgorithmException {
+        System.out.println(xSign("{\"lotteryCode\":\"0512\",\"periodId\":\"test123456789\",\"period\":\"123456578\",\"openResult\":\"123456\"}", "bGl2ZXRlc3RrZXk="));
+    }
+
+    /**
+     * DDLottery x-sign
+     */
+    public static String xSign(String requestStr, String key) throws NoSuchAlgorithmException {
+        String str = requestStr.hashCode() + "";//加密字符串，为字符串的哈希值
+        MessageDigest md5 = MessageDigest.getInstance("MD5");
+        //密钥信息: 由Lottery方提供.必须utf-8格式
+        md5.update(key.getBytes(StandardCharsets.UTF_8));
+        // 转换为MD5码.必须utf-8格式
+        byte[] digest = md5.digest(str.getBytes(StandardCharsets.UTF_8));
+        // 转base64
+        return Base64.getEncoder().encodeToString(digest);
     }
 
     /**
@@ -87,5 +103,9 @@ public class CustomToolBox {
         }
 
         return Math.floor(200 + (800 * random.nextDouble()));
+    }
+
+    public Integer add(int a, int b) {
+        return a + b;
     }
 }
