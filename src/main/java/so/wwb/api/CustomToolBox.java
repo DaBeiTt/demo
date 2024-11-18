@@ -18,8 +18,22 @@ import java.util.*;
  */
 public class CustomToolBox {
 
-    public static void main(String[] args) throws NoSuchAlgorithmException {
-        System.out.println(xSign("{\"lotteryCode\":\"0512\",\"periodId\":\"test123456789\",\"period\":\"123456578\",\"openResult\":\"123456\"}", "bGl2ZXRlc3RrZXk="));
+    public static void main(String[] args) {
+
+    }
+
+    /**
+     * item.get 的參數要換成自己 List 的屬性
+     * 從 List 中根據 betType 獲取需要的 betItem
+     * @return betItem 的值
+     */
+    private static String findValue(List<Map<String, String>> itemList, String keyword) {
+
+        return itemList.stream()
+                .filter(item -> keyword.equals(item.get("betType")))
+                .map(item -> item.get("betItem"))
+                .findFirst()
+                .orElse(null);
     }
 
     /**
