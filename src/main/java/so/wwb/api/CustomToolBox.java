@@ -12,19 +12,29 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.function.Supplier;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 測試各功能專用
  */
 public class CustomToolBox {
 
-    public static void main(String[] args) {
+    public static String getPrefix(String statement, String target) {
+        Pattern pattern = Pattern.compile(statement);
+        Matcher matcher = pattern.matcher(target);
+        return matcher.find() ? matcher.group(1) : "Not Found";
+    }
 
+    public static <T> T getObject(Supplier<T> supplier) {
+        return supplier.get();
     }
 
     /**
      * item.get 的參數要換成自己 List 的屬性
      * 從 List 中根據 betType 獲取需要的 betItem
+     *
      * @return betItem 的值
      */
     private static String findValue(List<Map<String, String>> itemList, String keyword) {
@@ -54,7 +64,7 @@ public class CustomToolBox {
      * 隨機 UUID
      */
     public static String generatePlayerId() {
-        String randomId = UUID.randomUUID().toString().replace("-","");
+        String randomId = UUID.randomUUID().toString().replace("-", "");
         return "robot_" + randomId;
     }
 
@@ -70,8 +80,9 @@ public class CustomToolBox {
 
     /**
      * 時間戳轉換為 Date
+     *
      * @param stamp 時間戳
-     * @param zone 時區
+     * @param zone  時區
      */
     public static String timestampToDate(Long stamp, String zone) {
         ZonedDateTime dateTime = Instant.ofEpochMilli(stamp).atZone(ZoneId.of(zone));
@@ -83,7 +94,8 @@ public class CustomToolBox {
 
     /**
      * 計算 HMAC-SHA256 簽名
-     * @param message 預加密訊息
+     *
+     * @param message   預加密訊息
      * @param secretKey 密鑰
      */
     public static String calculateHMAC(String message, String secretKey) throws Exception {
@@ -104,6 +116,7 @@ public class CustomToolBox {
 
     /**
      * 生成範圍內隨機 Double
+     *
      * @param min 最小值
      * @param max 最大值
      * @return 去小數點之 Double
