@@ -1,4 +1,4 @@
-package so.wwb.api;
+package so.wwb.api.util;
 
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -16,9 +16,6 @@ import java.util.regex.Pattern;
  * 測試各功能專用
  */
 public class CustomToolBox {
-
-    public static void main(String[] args) {
-    }
 
     public static String getIPv4(Long ip) {
         StringBuilder sb = new StringBuilder();
@@ -135,7 +132,7 @@ public class CustomToolBox {
         return Math.floor(200 + (800 * random.nextDouble()));
     }
 
-    public Integer add(int a, int b) {
+    public static Integer add(int a, int b) {
         return a + b;
     }
 }
