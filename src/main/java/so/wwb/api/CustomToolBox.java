@@ -4,12 +4,13 @@ import org.apache.commons.collections4.CollectionUtils;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.text.MessageFormat;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Supplier;
@@ -20,6 +21,27 @@ import java.util.regex.Pattern;
  * 測試各功能專用
  */
 public class CustomToolBox {
+
+    public static void main(String[] args) {
+    }
+
+    public static String getIPv4(Long ip) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 4; i++) {
+            long l = ip >> (3 - i) * 8 & 0xFF;
+            sb.append(l).append(".");
+        }
+        return sb.substring(0, sb.length() - 1);
+    }
+
+    public static LocalDateTime convertToPlatformTime(long ticks) {
+        long millisSinceUnixEpoch = (ticks - 621355968000000000L) / 10000;
+        return Instant.ofEpochMilli(millisSinceUnixEpoch).atZone(ZoneOffset.UTC).toLocalDateTime();
+    }
+
+    public static boolean isZero(String num) {
+        return Double.parseDouble(num) == 0;
+    }
 
     public static String getPrefix(String statement, String target) {
         Pattern pattern = Pattern.compile(statement);
@@ -44,20 +66,6 @@ public class CustomToolBox {
                 .map(item -> item.get("betItem"))
                 .findFirst()
                 .orElse(null);
-    }
-
-    /**
-     * DDLottery x-sign
-     */
-    public static String xSign(String requestStr, String key) throws NoSuchAlgorithmException {
-        String str = requestStr.hashCode() + "";//加密字符串，为字符串的哈希值
-        MessageDigest md5 = MessageDigest.getInstance("MD5");
-        //密钥信息: 由Lottery方提供.必须utf-8格式
-        md5.update(key.getBytes(StandardCharsets.UTF_8));
-        // 转换为MD5码.必须utf-8格式
-        byte[] digest = md5.digest(str.getBytes(StandardCharsets.UTF_8));
-        // 转base64
-        return Base64.getEncoder().encodeToString(digest);
     }
 
     /**

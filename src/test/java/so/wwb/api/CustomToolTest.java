@@ -8,11 +8,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CustomToolTest {
 
-    private CustomToolBox ctb;
+    private CustomToolBox customToolBox;
 
     @BeforeEach
     public void setUp() {
-        ctb = new CustomToolBox();
+        customToolBox = new CustomToolBox();
     }
 
     @AfterEach
@@ -22,6 +22,6 @@ public class CustomToolTest {
 
     @Test
     public void add() {
-        assertEquals(3, ctb.add(1,2));
+        assertEquals(3, customToolBox.add(1,2));
     }
 }
